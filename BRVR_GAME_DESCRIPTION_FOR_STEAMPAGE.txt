@@ -1,0 +1,598 @@
+================================================================================
+BRVR — COMPLETE GAME DESCRIPTION & DATA REFERENCE
+For Steam Page Copy, Marketing, Image Prompts, and Press Materials
+================================================================================
+
+THE GAME IN ONE LINE:
+A physics-based VR action RPG where you swing swords, hurl fireballs, brew
+potions, and battle through 5 procedurally generated levels of escalating
+danger — looting your way stronger with every kill.
+
+THE SOUL OF THE GAME:
+"I am flying, and I have a fireball in my hand."
+Every design decision serves this feeling. Playtesters said they could
+"feel the love" in this game.
+
+================================================================================
+SECTION 1: THE GOAL
+================================================================================
+
+WHAT THE PLAYER DOES:
+You are a hero in a fantasy VR world. You fight through 5 increasingly
+dangerous levels, killing enemies to gain XP, collecting loot to grow
+stronger, and unlocking new abilities — until you face the final boss.
+
+THE LOOP:
+1. CREATE your character (name them, pick a class)
+2. ENTER the first level — a procedurally generated fantasy landscape
+3. FIGHT enemy camps scattered across the map
+4. LOOT weapons, potions, treasure, and crafting ingredients from fallen foes
+5. COMPLETE quests from NPCs ("Slay 10 wolves", "Collect 5 tiger fangs")
+6. SHOP at vendors for better weapons using gold earned from treasure
+7. CRAFT potions at cauldrons by physically throwing flowers into them
+8. FIND THE PORTAL to advance to the next, harder level
+9. GROW STRONGER — level up, find rare weapons, unlock talents
+10. FACE THE BOSS — a multi-phase monstrosity on Level 5
+11. SURVIVE — return to character select, start a new run with your progress
+
+THE FEELING:
+Each level is harder. Enemies hit harder. But YOU are also stronger — your
+Level 1 common sword is now a Level 8 Legendary fire-enchanted greatsword
+with +30% crit chance. The fireball that tickled wolves now obliterates
+entire packs. You started cautious. Now you're a force of nature.
+
+PERMADEATH OPTION (HARDCORE MODE):
+Create a Hardcore character. Death is permanent — your character is deleted.
+Every fight matters. Every health potion is precious. Marked with [HC] in
+the character list so everyone knows you earned it.
+
+================================================================================
+SECTION 2: PLATFORM & ENGINE
+================================================================================
+
+Engine:         Unreal Engine 5.7
+Platform:       VR (OpenXR) — Meta Quest standalone + PC VR (SteamVR)
+Perspective:    First-person VR with motion controllers
+Genre:          VR Action RPG / Roguelike-lite
+Players:        Single player
+Developer:      Solo indie developer (Br)
+
+================================================================================
+SECTION 3: COMBAT SYSTEM
+================================================================================
+
+ALL COMBAT IS PHYSICS-BASED. Velocity = power. Everywhere. Always.
+
+--- MELEE WEAPONS ---
+Swords, Axes, Maces, Daggers, Staves
+- Physically swing with your VR controllers
+- Harder swing = more damage (physics-based velocity scaling)
+- Sphere trace hit detection from hilt to tip
+- Knockback force scales with swing velocity
+- Status effects proc from weapon bonuses (fire, cold, poison, lightning)
+- Base sword damage: 50
+- Hit cooldown per enemy: 0.2s (prevents wiggle-spam)
+
+--- RANGED WEAPONS (GUNS) ---
+Fireball Guns, Frost Guns, etc.
+- Trigger to fire, hold for auto-fire
+- Auto-fire rate: 0.1s between shots
+- Max ammo: 40 rounds
+- Projectile damage: 30 base
+- Muzzle flash + projectile VFX
+- Ammo count displayed on weapon
+
+--- MAGIC ---
+- FIREBALL THROWING: Grab a fireball from your hand and physically throw it
+- SLAM FUSION: Smash two fireballs together = combined explosion
+- DRAW APART: Pull hands 60cm+ apart fast = massive 2x size explosion
+- THROW LOAD: Wind up behind head = powered-up throw
+- FIRE COATING: Hold sword near fireball for 1 second = 60s fire enchant (+50 fire damage)
+- PUNCH DEFLECT: Punch a flying projectile to redirect it (2x velocity)
+
+--- SHIELDS ---
+- Block incoming projectiles and melee attacks
+- Shield bash for knockback (2000 force, 15 base damage)
+- Ricochet enemy projectiles back at them
+
+--- FIST COMBAT ---
+- Punch enemies bare-handed with physics-based damage
+- Buff-enhanced fist damage and knockback
+
+--- STATUS EFFECTS ON ENEMIES ---
+| Effect    | Trigger    | What It Does                              | Duration   |
+|-----------|------------|-------------------------------------------|------------|
+| BURNING   | 10% chance | Fire DoT (10% of fire bonus per 3s tick)  | 30 seconds |
+| COLD SLOW | 25% chance | Halves enemy movement speed               | 10 seconds |
+| POISONED  | 10% chance | Stacking poison ticks (max 3 stacks)      | 60 seconds |
+| RUPTURE   | Every hit  | Burst at 20% maxHP threshold for bonus dmg | Decays 5/s |
+
+--- DAMAGE TYPES ---
+5 types: Physical, Fire, Cold, Poison, Lightning
+Mixed damage possible (e.g. flaming sword = Physical 50 + Fire 25)
+Enemies have Armor (reduces Physical) and Magic Armor (reduces all magical)
+
+================================================================================
+SECTION 4: CHARACTER SYSTEM
+================================================================================
+
+--- 5 CLASSES ---
+| Class      | Starting Gear           | Playstyle                    |
+|------------|------------------------|------------------------------|
+| Warrior    | Sword                  | Melee-focused                |
+| Ranger     | Fireball Gun           | Ranged-focused               |
+| Mage       | Fireball Gun + Spells  | Magic-focused                |
+| Adventurer | Sword + Gun            | Balanced (recommended)       |
+| GM         | Everything unlocked    | Creative / debug mode        |
+
+--- CHARACTER CREATION ---
+- VR letter grid naming (9x3 grid, physically poke letters)
+- Class selection buttons
+- Grab mode toggle: HOLD (hold grip) or TOGGLE (click grip)
+- Hardcore mode toggle: ON = permadeath
+- Up to 20 character slots
+
+--- PLAYER STATS (Starting Values) ---
+| Stat              | Start  | Per Level Up |
+|-------------------|--------|-------------|
+| Max Health        | 1000   | +100        |
+| Max Mana          | 1000   | +100        |
+| Health Regen      | 5/sec  | —           |
+| Mana Regen        | 5/sec  | +1/sec      |
+| Melee Damage Mult | 1.0x   | +10%        |
+| Throw Damage Mult | 1.0x   | +10%        |
+| Sword Damage Mult | 1.0x   | +5%         |
+
+--- XP CURVE ---
+Formula: BaseXP(100) * 1.5^(Level-1)
+
+| Level | XP Required | Cumulative |
+|-------|-------------|------------|
+| 1→2   | 100         | 100        |
+| 2→3   | 150         | 250        |
+| 3→4   | 225         | 475        |
+| 4→5   | 338         | 813        |
+| 5→6   | 506         | 1319       |
+| 9→10  | 2563        | 9206       |
+
+Level up = full HP + Mana heal. Levels are per-run (reset on new run).
+
+--- MILESTONES (Achievement Badges) ---
+| Milestone     | Requirement            |
+|---------------|------------------------|
+| Slayer        | 100 total kills        |
+| Warrior       | 500 total kills        |
+| Legend        | 1000 total kills       |
+| Swordmaster   | Sword weapon level 10  |
+| Gunslinger    | Gun weapon level 10    |
+| Spellcaster   | 200 spell kills        |
+| Veteran       | 1 hour playtime        |
+| Seasoned      | 5 hours playtime       |
+| Fearless      | Reach difficulty 5     |
+| Legendary     | Reach difficulty 10    |
+
+Top 3 badges shown on character select screen.
+
+================================================================================
+SECTION 5: WEAPON RARITY SYSTEM
+================================================================================
+
+5-tier rarity system rolled when weapons drop:
+
+| Rank | Name      | Color  | Random Bonuses | Drop Weight |
+|------|-----------|--------|----------------|-------------|
+| 1    | Common    | Gray   | 1 bonus        | 50%         |
+| 2    | Uncommon  | Green  | 2 bonuses      | 30%         |
+| 3    | Rare      | Blue   | 3 bonuses      | 15%         |
+| 4    | Epic      | Purple | 4 bonuses      | 4%          |
+| 5    | Legendary | Gold   | 5 bonuses      | 1%          |
+
+Higher difficulty shifts weights toward rarer drops.
+
+--- WEAPON LEVEL ---
+Damage multiplier = 1.15^(level-1) — compound 15% per level.
+Level 1 = 1.0x, Level 5 = 1.75x, Level 10 = 3.52x
+
+--- POSSIBLE STAT BONUSES ---
+- +% Damage
+- +Flat Fire / Cold / Poison / Lightning Damage
+- +Ammo Regen per second (guns only)
+- -Knockback Cooldown (swords + shields)
+- +% Attack Speed (swords + guns)
+- +% Life Steal (swords + guns)
+- +% Crit Chance (all weapons)
+
+--- DPS COMPARISON ---
+When inspecting a weapon, DPS is calculated and compared vs. equipped:
+  Green + = better than what you have
+  Yellow = = roughly equal
+  Red -   = worse than what you have
+
+--- ELEMENTAL ENCHANTMENT FLAMES ---
+Weapons with high elemental bonuses get visible flame VFX:
+- Fire bonus → orange/red flames along blade
+- Cold bonus → blue/white frost flames
+- Poison bonus → green toxic flames
+- Lightning bonus → purple/white electric arcs
+
+================================================================================
+SECTION 6: LOOT SYSTEM
+================================================================================
+
+--- LOOT DROPS ---
+Enemies explode into loot on death with a "fountain effect":
+- Items pop upward with staggered timing (cascading visual)
+- Float briefly with disabled physics
+- Physics activates and items fall naturally
+- All items auto-levitate to grab height (NO BENDING OVER)
+
+--- ITEM TYPES ---
+- Weapons (swords, axes, maces, daggers, staves)
+- Guns (fireball, frostball, etc.)
+- Shields
+- Consumables (potions, food, flowers)
+- Treasure (auto-collect gold on touch)
+- Quest Items (tracked by quest givers)
+- Buff Chests (pick-one-of-three buff upgrade)
+
+--- LAZY INJECTION (Performance) ---
+Items on the ground are just a mesh + overlap sphere (very lightweight).
+When grabbed, the appropriate components (SwordComponent, GunComponent,
+ConsumableComponent, etc.) are dynamically injected. This means 200+ items
+on the ground cost almost nothing.
+
+--- ITEM ECONOMY ---
+| Potion        | Effect                    | Drop Rate | Sell Value |
+|---------------|---------------------------|-----------|------------|
+| HP Potion     | Heal 50 HP                | 70%       | 25 gold    |
+| Mana Potion   | Restore 30 Mana           | 55%       | 30 gold    |
+| Recall Potion | Teleport to starting tower | 25%       | 50 gold    |
+
+================================================================================
+SECTION 7: CRAFTING (CAULDRON SYSTEM)
+================================================================================
+
+A cauldron randomly appears on each map (50% chance). Physical crafting:
+PICK UP flowers → THROW them into the cauldron → WAIT 2 seconds → GRAB the
+brewed potion that launches out the top.
+
+--- RECIPES ---
+| Ingredients              | Output        | Effect                        |
+|--------------------------|---------------|-------------------------------|
+| 2x Red Tulip             | HP Potion     | Heals 50 HP                   |
+| 2x Blue Tulip            | Mana Potion   | Restores 30 Mana              |
+| 1x Red + 1x Blue Tulip   | HP/Mana Mix   | 25 HP + 15 Mana               |
+| 2x Yellow Tulip          | MaskScent     | 50% enemy detection reduction, 5 min |
+
+--- EDIBLE FLOWERS (eat them raw for small effects) ---
+| Flower       | Raw Effect                          |
+|--------------|-------------------------------------|
+| Red Tulip    | 2.5 HP heal                         |
+| Blue Tulip   | 1.5 Mana restore                   |
+| Yellow Tulip | 50% detection reduction for 30s    |
+
+Visual: Fire VFX underneath, status text showing ingredient count, brewed
+potion launches upward with impulse.
+
+================================================================================
+SECTION 8: THE 5 LEVELS
+================================================================================
+
+| Level | Theme              | Enemies              | Special           | Portal To  |
+|-------|--------------------|----------------------|-------------------|------------|
+| 0     | Starting Meadow    | Easy Grunts + Archers| Tutorial Zone     | Level 1    |
+| 1     | Jungle / Beach     | Easy Grunts + Archers| Vendors, Quests   | Level 2    |
+| 2     | Champion Arena     | Champion Elite Pack  | Arena Clear Gate  | Level 3    |
+| 3     | Harder Landscape   | Hard Grunts + Archers| Vendors, Quests   | Level 4    |
+| 4     | Boss Domain        | Final Boss + Minions | Multi-Phase Boss  | Demo End   |
+
+--- ENEMY TYPES ---
+| Enemy         | HP  | Damage | Speed | XP  | Behavior            |
+|---------------|-----|--------|-------|-----|---------------------|
+| Grunt (Easy)  | 40  | 8      | 350   | 10  | Charges + melee     |
+| Archer (Easy) | 25  | 12     | 250   | 12  | Keeps distance, shoots |
+| Grunt (Hard)  | 80  | 15     | 400   | 20  | Faster, tougher charge |
+| Archer (Hard) | 45  | 20     | 300   | 25  | More damage, longer range |
+| Boss          | 1000| 45     | 300   | 200 | Multi-phase AI      |
+| Boss Minion   | 30  | 8      | 500   | 5   | Fast, swarming      |
+
+--- DIFFICULTY SCALING PER LEVEL ---
+All enemy stats scale: base * 1.10^(difficulty-1)
+- HP, Damage, Speed, Detection Range: +10% compound per difficulty
+- Enemy Damage Reduction: 6% compound per difficulty (they become tankier)
+
+--- ENEMY BEHAVIORS ---
+- Aggressive Melee: charges and attacks up close
+- Aggressive Ranged: maintains distance, shoots projectiles
+- Aggressive Hybrid: switches between melee and ranged, strafes
+- Pack Hunter: flanks when allies are nearby
+- Defensive: circles player, blocks, counter-attacks
+- Elite: no flinch, special attack patterns
+- Coward: flees (treasure goblins — kill before they escape!)
+- Idle: tutorial NPCs, non-hostile
+
+--- CHAMPION PACKS (Elite Encounters, Level 2 Arena) ---
+Champions have 9x HP, 2x damage, 1.3x size, 1.2x speed.
+Each champion rolls a random hazard effect:
+
+| Hazard       | Visual                | What It Does                              |
+|--------------|-----------------------|-------------------------------------------|
+| Damage Beam  | Electric blue line    | Beam between 2 champions damages you      |
+| Mine Spawner | Sickly green flames   | Proximity mines (40 dmg, 15s lifetime)    |
+| Arcane Shield| Glowing barrier       | 200 HP damage shield (50% reduction)      |
+| Enraged      | Red glow below 50% HP | +50% speed and damage when wounded         |
+| Mortar       | Red-orange fire rain  | Delayed explosions at your location        |
+| Speed Aura   | Speed lines           | Buffs nearby allies' movement speed        |
+
+--- TREASURE GOBLINS ---
+Special coward enemy. Runs away from you. Despawns after 30 seconds.
+Kill it before it escapes for bonus loot!
+
+================================================================================
+SECTION 9: BOSS FIGHT (LEVEL 5)
+================================================================================
+
+THE FINAL BOSS — "Dimension Guardian"
+HP: 1000 (10x base), Damage: 45 (3x base), Scale: 2x normal size
+
+--- 3 PHASES ---
+| Phase | Triggers At  | Behavior                                   |
+|-------|-------------|---------------------------------------------|
+| 0     | Fight start | Full spell rotation, can be stunned/slowed   |
+| 1     | 66% HP      | Boss flees, transforms, unstunnable          |
+| 2     | 33% HP      | Desperate phase, all spells, shorter cooldowns|
+
+--- 6 BOSS SPELL TYPES ---
+1. SUMMON MINIONS (near self): 3-5 aggressive minions spawn around boss
+2. SUMMON MINIONS (near player): 3-4 minions appear between you and the boss
+3. AOE GROUND TELEGRAPH: Red circle pulses on ground, explodes after 3s warning
+   (500-600cm radius, 80-100 damage — DODGE!)
+4. SINGLE PROJECTILE: Fires at player
+5. GROUND STAMP: Close-range AoE at boss's feet
+6. PROJECTILE BARRAGE: 5-7 projectiles with 30-45 degree spread, optional homing
+
+Phase transitions: boss flees to a distance, visual transformation plays,
+then returns with new abilities and immunity to stuns.
+
+================================================================================
+SECTION 10: VENDORS & ECONOMY
+================================================================================
+
+Vendor NPCs appear on Levels 1 and 3 (both biome zones).
+
+--- BUYING ---
+- 6 randomly-rolled weapons displayed on vendor stall
+- Each weapon has random level + rarity
+- Price scales with weapon power (BuyPriceMultiplier x sell value)
+- PHYSICALLY GRAB a weapon to buy it
+- Can't afford it? It snaps back to the display
+
+--- SELLING ---
+- Drop items onto the vendor's SELL BOX
+- Non-weapon items convert to gold (treasure dust)
+- Weapons/guns/shields cannot be sold (too valuable!)
+- Holstered items are rejected (must physically drop into box)
+
+--- DUST ECONOMY ---
+5 currency types: Treasure (gold), Botanical, Might, Swift, Legendary
+- Treasure = primary gold for buying
+- Other types feed talent trees
+- Items can be burned in furnace for dust of their configured type
+
+================================================================================
+SECTION 11: TALENT TREES
+================================================================================
+
+5 talent trees with 12 talents each (60 total). Physical 3D grids in the
+game world — reach out and touch nodes to purchase them.
+
+| Row | Talents | Unlock At      |
+|-----|---------|----------------|
+| 0   | 2       | Always open    |
+| 1   | 3       | 5 dust spent   |
+| 2   | 2       | 10 dust spent  |
+| 3   | 3       | 15 dust spent  |
+| 4   | 2       | 20 dust spent  |
+
+Node colors: Gray (locked), Teal (available), Gold (maxed)
+Each talent has 1-5 ranks. Permanent stat upgrades.
+
+--- TALENT EFFECTS INCLUDE ---
+- Melee damage bonus
+- Throw damage bonus
+- Max HP / Max Mana
+- Movement speed
+- Health regen / Mana regen
+- Gun damage / attack speed
+- Sword knockback
+- Fist damage
+- Shield bonuses
+- Elemental resistances (physical, fire, cold)
+- Mana cost reductions
+- MOVEMENT ABILITIES: Double Jump, Glide, Wing Flap (talent-gated)
+
+================================================================================
+SECTION 12: SAVE SYSTEM
+================================================================================
+
+--- PER-CHARACTER PERSISTENCE ---
+- Player stats (level, XP, difficulty, playtime, total kills)
+- Left + Right holster weapons (with FULL rarity bonuses preserved)
+- 25-slot backpack inventory (5x5 grid)
+- Talent tree purchases
+- Dust wallet (all 5 types)
+- Weapon XP per weapon type
+- Milestone achievements
+
+--- AUTO-SAVE TRIGGERS ---
+- Level up, Talent purchase, Portal transition, Item changes (30s coalesce), Game quit
+
+--- MODES ---
+- NORMAL: Full persistence across runs
+- HARDCORE: Death = character permanently deleted
+- DEMO MODE: Everything works but nothing saves to disk (kiosk/convention mode)
+
+================================================================================
+SECTION 13: ACCESSIBILITY (CORE DESIGN PILLAR)
+================================================================================
+
+"Everyone plays: elderly, disabled, everyone."
+
+- NO BENDING OVER: All items auto-levitate to grab height
+- AUTO-RETURN WEAPONS: Drop your sword = it returns to your holster
+- MAGIC GRAB: Pick up items from a distance
+- GRAB MODE TOGGLE: HOLD (hold grip) or TOGGLE (click once to grab/release)
+- WRIST-MOUNTED STATS: HP, Mana, Level, EXP always visible on your wrist
+- GAZE TOOLTIPS: Look at a held item to see its stats (3s deactivation timer prevents accidental dismiss from natural head sway)
+- TELEPORT LOCOMOTION: Teleport pads on towers with auto ground partner
+- RECALL POTION: Consumable teleport back to starting tower
+- WRIST COMPASS: Always know which direction to go
+- SIMPLE CONTROLS: Core actions on main VR buttons
+- COMFORT OPTIONS: VR comfort settings (vignette, snap turn, etc.)
+
+================================================================================
+SECTION 14: UI & MENUS
+================================================================================
+
+--- CHARACTER SELECT HUB (Waiting Room) ---
+- Spawn in a hub area with movement locked, hands free
+- Scrollable character list (up to 20 characters)
+- Quick-start: grab the tower sphere to load last character
+- Create new: class buttons + VR letter grid (9x3) + hardcore/grab toggles
+- Milestone badges displayed below each character name
+
+--- IN-GAME UI ---
+- WRIST STATS: HP bar, Mana bar, Level, EXP — live-updating, always on wrist
+- WRIST COMPASS: Direction indicator
+- ITEM TOOLTIPS: Gaze at held item = floating text showing name (color = rarity),
+  damage, DPS, stat bonuses, sell value, comparison arrows vs equipped
+- DAMAGE NUMBERS: Floating numbers on every hit
+- QUEST TEXT: NPC dialogue above their heads
+- VENDOR PRICES: Floating price tags on displayed weapons
+- BACKPACK: 5x5 grid behind your back, reach back to open
+
+--- PORTAL VISUAL TYPES ---
+| Portal Type    | Visual             | Meaning                    |
+|----------------|--------------------|----------------------------|
+| Regular        | Blue/green glow    | Normal next level           |
+| Miniboss       | Orange/red glow    | Champion pack awaits        |
+| Final Boss     | Dark purple glow   | Boss fight on next level    |
+
+================================================================================
+SECTION 15: PROCEDURAL WORLD GENERATION
+================================================================================
+
+Every level is unique. Procedurally generated in ~340ms.
+
+- Terrain layers with height variation
+- Vegetation and foliage spawning
+- Biome zone blending with Perlin noise organic edges
+- Enemy camp placement via PCG tags
+- Quest NPC + Vendor placement
+- Portal and Cauldron placement with clearance checks
+- HISM (Hierarchical Instanced Static Mesh) for performance
+
+================================================================================
+SECTION 16: ART DIRECTION & VISUAL STYLE
+================================================================================
+
+Colorful fantasy RPG aesthetic:
+- Glowing fireballs and magical projectiles
+- Procedural fire VFX (cauldron flames, weapon enchants, hazard markers)
+- Treasure fountain effect (loot exploding from enemies)
+- Champion hazard visuals:
+  - Electric blue damage beams
+  - Sickly green proximity mines
+  - Red-orange mortar telegraph circles
+  - Arcane shield barriers
+- Rarity-colored weapon glows (gray → green → blue → purple → gold)
+- Emissive champion materials
+- Portal glow effects per type
+- Niagara particle systems for explosions and rarity indicators
+- Mix of hand-crafted and AI-generated 3D models (Meshy AI pipeline)
+- Stylized creature models (bats, wolves, etc.)
+
+================================================================================
+SECTION 17: PERFORMANCE
+================================================================================
+
+- WiFi VR: 110-120 FPS STABLE (confirmed)
+- Editor: ~60 FPS (expected without stereo instanced rendering)
+- Map generation: 340ms (optimized from 1598ms)
+- Custom ECS-style mass enemy system (not UE5 Mass Entity)
+  - Actor pool with LOD-based tick rates
+  - LOD0 = every frame, LOD1 = every 8th frame
+  - Frustum culling, distance-based collision
+- Loot optimization:
+  - Lazy component injection (items on ground = mesh only)
+  - Distance-based rotation skip (>5m = no spinning)
+  - Tick disabled after 30s on ground
+- ISM→HISM converter for vegetation performance
+
+================================================================================
+SECTION 18: KEY DIFFERENTIATORS (Why This Game Stands Out)
+================================================================================
+
+1. PHYSICS = POWER: Swing harder = more damage. Consistent across ALL weapons.
+   Not just a gimmick — it's the core mechanic.
+
+2. DEEP RPG IN VR: 5 talent trees, 5-tier weapon rarity, 5 dust currencies,
+   20-character roster, milestone achievements. This depth is rare in VR.
+
+3. ACCESSIBILITY FIRST: No bending, magic grab, toggle grip, wrist UI.
+   Designed so elderly, disabled, and first-time VR players can enjoy it.
+   Everyone wins, skill is rewarded.
+
+4. ROGUELIKE RUNS: Each run through 5 levels is different. Procedural maps,
+   random loot, random vendors, random cauldrons. But your character persists.
+
+5. PHYSICAL CRAFTING: Throw flowers into a cauldron. Watch them brew.
+   Grab the potion that launches out. It feels REAL.
+
+6. HARDCORE PERMADEATH: For players who want real stakes.
+
+7. PHYSICS MAGIC COMBOS: Slam two fireballs together. Draw them apart for
+   bigger explosions. Coat your sword in fire. Punch projectiles back.
+
+8. SOLO DEV PASSION: "Feel the love" — handcrafted with care.
+
+================================================================================
+SECTION 19: TARGET AUDIENCE
+================================================================================
+
+PRIMARY: VR gamers who love action RPGs with physical combat
+  (Beat Saber fans wanting more depth, Blade & Sorcery fans wanting RPG systems)
+
+SECONDARY: Casual VR players looking for an accessible, replayable adventure
+
+ALSO: Roguelike/RPG fans who want build variety and replayability in VR
+
+ACCESSIBILITY: Designed for elderly, disabled, and first-time VR players
+
+INDIE: Players who appreciate solo-dev passion projects with heart
+
+================================================================================
+SECTION 20: QUICK REFERENCE — NUMBERS AT A GLANCE
+================================================================================
+
+Levels: 5 (procedurally generated)
+Character Slots: 20
+Classes: 5
+Talent Trees: 5 (12 talents each, 60 total)
+Weapon Rarity Tiers: 5
+Dust Currency Types: 5
+Starting HP: 1000
+Starting Mana: 1000
+Backpack Slots: 25 (5x5)
+Enemy Types: 6+ (easy grunt, easy archer, hard grunt, hard archer, boss, boss minion)
+Champion Hazard Effects: 6
+Boss Phases: 3
+Boss Spell Types: 6
+Cauldron Recipes: 4
+Potions: 3 types (HP, Mana, Recall)
+Milestones: 10
+VR FPS Target: 110-120 stable
+
+================================================================================
+END OF DOCUMENT
+================================================================================

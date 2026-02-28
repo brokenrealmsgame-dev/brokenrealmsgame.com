@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(C:\\Users\\Christoffer\\Documents\\Unreal Projects\\BRVR\\**)",
+      "Glob(C:\\Users\\Christoffer\\Documents\\Unreal Projects\\BRVR\\**)",
+      "Grep(C:\\Users\\Christoffer\\Documents\\Unreal Projects\\BRVR\\**)"
+    ]
+  }
+}
