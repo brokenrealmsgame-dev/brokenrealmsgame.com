@@ -239,6 +239,16 @@ ul { list-style: none; }
     rgba(249,115,22,.18);
   color: var(--text);
   border: 1px solid rgba(249,115,22,.6);
+  font-size: 1.35rem;
+  font-weight: 900;
+  line-height: 1.1;
+  text-shadow:
+    -1px -1px 0 rgba(249,115,22,.5),
+     1px -1px 0 rgba(249,115,22,.5),
+    -1px  1px 0 rgba(249,115,22,.5),
+     1px  1px 0 rgba(249,115,22,.5),
+     0 0 12px rgba(249,115,22,.6),
+     0 0 24px rgba(249,115,22,.3);
   position: relative;
   overflow: hidden;
 }
